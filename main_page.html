@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica&display=swap">
+    <title>joseph_vishal_</title>
+    <style>
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+        a:link {
+            text-decoration: none;
+        }
+
+        a:visited {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        a:active {
+            text-decoration: none;
+        }
+
+        .container *:hover {
+
+            background-color: transparent !important;
+
+        }
+
+        :root {
+            --dur: 0.3s;
+            font-size: calc(40px + (80 - 40)*(100vw - 320px)/(2560 - 320));
+            --light-text: #000;
+            --dark-bg: #333;
+            --light-bg: #fff;
+            --dark-text: #fff;
+        }
+
+        body,
+        input {
+            color: hsl(0, 0%, 10%);
+            font: 1em/1.5 sans-serif;
+        }
+
+        form,
+        .toggle:before,
+        .toggle:after {
+            background: hsl(0, 0%, 90%);
+        }
+
+        form,
+        .toggle {
+            position: relative;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .curtain,
+        .sr,
+        .toggle:before,
+        .toggle:after {
+            position: absolute;
+        }
+
+        .curtain,
+        .toggle:before,
+        .toggle:after {
+            transition: transform var(--dur);
+        }
+
+        .curtain,
+        .toggle:before,
+        .toggle:checked:after {
+            transition-timing-function: ease-ou21t;
+        }
+
+        .curtain,
+        .sr {
+            top: 0;
+            left: 0;
+        }
+
+        .curtain {
+
+            mix-blend-mode: difference;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            transform: scaleX(0);
+            transform-origin: 0 50%;
+        }
+
+        .sr,
+        .toggle {
+            overflow: hidden;
+        }
+
+        .sr {
+            clip: rect(1px, 1px, 1px, 1px);
+            color: transparent;
+            width: 1px;
+            height: 1px;
+        }
+
+        .toggle {
+            background: currentColor;
+            border-radius: 0.5em;
+            cursor: pointer;
+            width: 1em;
+            height: 0.5em;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .toggle:before,
+        .toggle:after {
+            border-radius: 50%;
+            content: "";
+            display: block;
+            top: 0.1em;
+            left: 0.1em;
+            width: 0.3em;
+            height: 0.3em;
+        }
+
+        .toggle:before,
+        .toggle:checked:after {
+            transition-delay: 0s;
+        }
+
+        .toggle:checked:before,
+        .toggle:after {
+            transition-delay: calc(var(--dur) * 0.75);
+            transition-timing-function: cubic-bezier(0.3, 1.6, 0.5, 0.7);
+        }
+
+        .toggle:before {
+            transform: translateX(-1em);
+        }
+
+        .toggle:checked:before {
+            transform: translateX(0.53em);
+        }
+
+        .toggle:checked:after {
+            transform: translateX(1em);
+        }
+
+        .toggle:checked~.curtain {
+            transform: scaleX(1);
+        }
+
+        .toggle:focus {
+            outline: transparent;
+        }
+
+        body {
+            font-family: 'Helvetica', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            position: relative;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .iframe-container {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        img {
+            pointer-events: none;
+
+        }
+
+        .toggle-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .dark-mode {
+            --bg-color: #333;
+            --text-color: #fff;
+        }
+
+        .typing {
+            font-family: 'Helvetica', sans-serif;
+            font-size: medium;
+
+
+        }
+
+        .button-container {
+            display: none;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body:not(.dark-mode) .button {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+
+        }
+
+        body.dark-mode .button {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            pointer-events: none;
+        }
+
+        .gif {
+            position: relative;
+            z-index: 1;
+        }
+
+        .blur-background {
+            filter: blur(5px);
+        }
+
+        .popup-connect {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+
+            z-index: 30;
+
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+        }
+
+        .social-buttons button {
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            padding: 10px;
+
+        }
+
+        .social-buttons button i {
+            font-size: 5em;
+        }
+
+        #textContainer {
+            text-align: center;
+        }
+
+        #text {
+            display: inline-block;
+            vertical-align: middle;
+
+            letter-spacing: 2px;
+        }
+
+        #cursor {
+            display: inline-block;
+            vertical-align: middle;
+            width: 5px;
+            height: 20px;
+            color: olivedrab;
+            animation: blink .75s step-end infinite;
+        }
+
+        @keyframes blink {
+
+            from,
+            to {
+                background-color: transparent
+            }
+
+            50% {
+                background-color: transparent;
+            }
+        }
+
+        .toggle-label {
+            position: relative;
+        }
+
+        .toggle-label i {
+            position: absolute;
+            top: 47%;
+            transform: translateY(-50%);
+            font-size: 20%;
+        }
+
+        .fa-moon {
+            left: -1.705em;
+            z-index: 30;
+        }
+
+        .fa-sun {
+            right: 3.5em;
+            size: 0.1em;
+        }
+    </style>
+</head>
+
+<body onload="Type()">
+
+    <div class="container">
+
+        <div class="iframe-container">
+            <div class="overlay"></div>
+            <p>
+                <img loading="lazy"
+                    src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3NkaDZpeTdqaWQwMmthY2N1YjIwNTNhbXphNTMxaGYxdXA4eGU3ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/ORSqUpG03a8FuCZnir/giphy.gif"
+                    width="480" height="480" frameBorder="0" class="gif" alt="there is a monkey on laptop here!"></img>
+            </p>
+            <div id="textContainer">
+                <div id="text" style="font-size: medium; z-index: 9 ;"></div>
+                <div id="cursor"></div>
+            </div>
+        </div>
+        <div class="toggle-container">
+            <input id="toggle-btn" class="toggle" type="checkbox" name="Dark mode" role="switch" value="on">
+            <label for="toggle-btn" class="toggle-label">
+                <i class="fas fa-moon" style="color: #333 !important;"></i>
+                <i class="fas fa-sun" id="moon" style="color:#000 !important"></i>
+            </label>
+            <div class="curtain"></div>
+        </div>
+        <div class="button-container" id="buttonContainer">
+            <button class="button">
+                <a href="https://drive.google.com/file/d/1ixBHVbyPUw17LsKM7kB84W7g0L2ifo-p/view?usp=sharing"
+                    target="_blank" style="color: #000 !important; text-decoration: none; display: none;"
+                    class="dark-mode-link">Resume</a>
+                <a href="https://drive.google.com/file/d/1ixBHVbyPUw17LsKM7kB84W7g0L2ifo-p/view?usp=sharing"
+                    target="_blank" style="color: #fff !important; text-decoration: none; display: none;"
+                    class="light-mode-link">Resume</a>
+            </button>
+
+            <button class="button" id="connectBtn">
+                <a href="#" style="color: #000 !important; text-decoration: none; display: none;"
+                    class="dark-mode-link-2">Connect</a>
+                <a href="#" style="color: #fff !important; text-decoration: none; display: none;"
+                    class="light-mode-link-2">Connect</a>
+            </button>
+
+            <button class="button">
+
+                <a href="https://github.com/jo780-full" target="_blank"
+                    style="color: #000 !important; text-decoration: none; display: none;"
+                    class="dark-mode-link-1">Projects</a>
+                <a href="https://github.com/jo780-full" target="_blank"
+                    style="color: #fff !important; text-decoration: none; display: none;"
+                    class="light-mode-link-1">Projects</a>
+
+            </button>
+
+
+        </div>
+
+
+
+    </div>
+
+    <div class="popup-connect" id="popupConnect">
+        <div class="popup-content">
+            <button class="close-btn">&times;</button>
+
+
+            <div class="social-buttons">
+                <a href="https://in.linkedin.com/in/joseph-raj-vishal-004035222 " target="_blank"><button
+                        class="Linkedin"><i class="fab fa-linkedin"></i></button></a>
+                <button class="Mail"><i class="fas fa-envelope"></i></button>
+                <a href="https://www.instagram.com/joseph_raj_vishal_/" target="_blank"><button class="Instagram"><i
+                            class="fab fa-instagram"></i></button></a>
+            </div>
+
+        </div>
+        <script>
+            const txt = "Hello, World!!My name is Joseph Raj Vishal. \n A Final year student at Dayanada Sagar College of Engineering.I'm currently learning about Explainable AI, Mobile Development and Deep Learning. I'm looking to collaborate on anything, I can get my hands on. I love sketching and swimming!!";
+            const tech_skills = "Languages I know include PHP, Python, Javascript, C++, SQL, Java, R, Kotlin.FrameWorks I have worked with JSP, Node, React, Android, Firebase, Django, Flask, MongoDB, React Native";
+            var _CONTENT = [
+                "Hello, World!!My name is Joseph Raj Vishal.",
+                "A Final year student at Dayanada Sagar College of Engineering.",
+                "I'm currently learning about Explainable AI, Mobile Development and Deep Learning.",
+                "I'm looking to collaborate on anything, I can get my hands on.",
+                "I love sketching and swimming!!",
+                "Languages I know include PHP, Python, Javascript, C++, SQL, Java, R, Kotlin.",
+                "FrameWorks I have worked with JSP, Node, React, Android, Firebase",
+                "Django, Flask, MongoDB, React Native....."
+            ];
+
+            var _PART = 0;
+            var _PART_INDEX = 0;
+            var _INTERVAL_VAL;
+            var _ELEMENT = document.querySelector("#text");
+            var _CURSOR = document.querySelector("#cursor");
+
+            function Type() {
+                var text = _CONTENT[_PART].substring(0, _PART_INDEX + 1);
+                _ELEMENT.innerHTML = text;
+                _PART_INDEX++;
+
+                if (text === _CONTENT[_PART]) {
+                    _CURSOR.style.display = 'none';
+                    clearInterval(_INTERVAL_VAL);
+                    setTimeout(function () {
+                        _INTERVAL_VAL = setInterval(Delete, 50);
+                    }, 1000);
+                }
+            }
+
+            function Delete() {
+                var text = _CONTENT[_PART].substring(0, _PART_INDEX - 1);
+                _ELEMENT.innerHTML = text;
+                _PART_INDEX--;
+
+                if (text === '') {
+                    clearInterval(_INTERVAL_VAL);
+
+                    if (_PART == (_CONTENT.length - 1))
+                        _PART = 0;
+                    else
+                        _PART++;
+
+                    _PART_INDEX = 0;
+
+                    setTimeout(function () {
+                        _CURSOR.style.display = 'inline-block';
+                        _INTERVAL_VAL = setInterval(Type, 100);
+                    }, 200);
+                    document.getElementById("buttonContainer").style.display = "flex";
+                }
+            }
+
+            function startTyping() {
+                _INTERVAL_VAL = setInterval(Type, 100);
+            }
+
+            function restartTyping() {
+                clearInterval(_INTERVAL_VAL);
+                _PART = 0;
+                _PART_INDEX = 0;
+                _ELEMENT.innerHTML = '';
+                startTyping();
+            }
+
+            function stopTyping() {
+                clearInterval(_INTERVAL_VAL);
+            }
+
+            startTyping(); // Start the typing effect
+
+
+            document.getElementById("toggle-btn").addEventListener("click", function () {
+                document.body.classList.toggle("dark-mode");
+            });
+            document.addEventListener('DOMContentLoaded', function () {
+                const darkModeLink = document.querySelector('.dark-mode-link');
+                const lightModeLink = document.querySelector('.light-mode-link');
+                const darkMode1 = document.querySelector('.dark-mode-link-1');
+                const lightMode1 = document.querySelector('.light-mode-link-1');
+                const darkMode2 = document.querySelector('.dark-mode-link-2');
+                const lightMode2 = document.querySelector('.light-mode-link-2');
+                // Hide both links by default
+                darkModeLink.style.display = 'none';
+                lightModeLink.style.display = 'none';
+                darkMode1.style.display = 'none';
+                lightMode1.style.display = 'none';
+                darkMode2.style.display = 'none';
+                lightMode2.style.display = 'none';
+
+                // Toggle the visibility of links based on the dark mode class
+                function toggleLinksVisibility() {
+                    if (document.body.classList.contains('dark-mode')) {
+                        darkModeLink.style.display = 'inline';
+                        darkMode1.style.display = 'inline';
+                        darkMode2.style.display = 'inline';
+                        lightModeLink.style.display = 'none';
+                        lightMode1.style.display = 'none';
+                        lightMode2.style.display = 'none';
+                    } else {
+                        darkModeLink.style.display = 'none';
+                        darkMode1.style.display = 'none';
+                        darkMode2.style.display = 'none';
+                        lightMode1.style.display = 'inline';
+                        lightMode2.style.display = 'inline';
+                        lightModeLink.style.display = 'inline';
+                    }
+                }
+
+
+                toggleLinksVisibility();
+
+                document.getElementById("toggle-btn").addEventListener("click", toggleLinksVisibility);
+            });
+
+
+            const connectBtn = document.getElementById('connectBtn');
+            const popupConnect = document.getElementById('popupConnect');
+            const mainContainer = document.querySelector('.container');
+
+            connectBtn.addEventListener('click', function () {
+                mainContainer.classList.add('blur-background');
+                popupConnect.style.display = 'flex';
+            });
+
+
+            const closeBtn = document.querySelector('.close-btn');
+            closeBtn.addEventListener('click', function () {
+                mainContainer.classList.remove('blur-background');
+                popupConnect.style.display = 'none';
+            });
+
+
+
+        </script>
+</body>
+
+</html>
